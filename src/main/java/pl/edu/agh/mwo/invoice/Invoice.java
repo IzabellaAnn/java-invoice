@@ -6,19 +6,30 @@ import java.util.Map;
 import pl.edu.agh.mwo.invoice.product.Product;
 
 public class Invoice {
-    private Map<Product, Integer> products = new HashMap<>();
+    private final Map<Product, Integer> products = new HashMap<>();
     private static int nextNumber = 0;
     private final int number = ++nextNumber;
 
+    public Map<Product, Integer> getProducts() {
+        return products;
+    }
+
     public void addProduct(Product product) {
-        addProduct(product, 1);
+            addProduct(product, 1);
     }
 
     public void addProduct(Product product, Integer quantity) {
         if (product == null || quantity <= 0) {
             throw new IllegalArgumentException();
         }
-        products.put(product, quantity);
+
+        if (products.containsKey(product)) {
+            final Integer currentQuantity = products.get(product);
+            final Integer newQuantity = currentQuantity + quantity;
+            products.put(product, newQuantity);
+        } else {
+            products.put(product, quantity);
+        }
     }
 
     public BigDecimal getNetTotal() {

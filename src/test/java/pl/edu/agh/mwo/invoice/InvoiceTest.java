@@ -8,6 +8,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import pl.edu.agh.mwo.invoice.Invoice;
+import pl.edu.agh.mwo.invoice.printer.ConsoleInvoicePrinter;
+import pl.edu.agh.mwo.invoice.printer.InvoicePrinter;
 import pl.edu.agh.mwo.invoice.product.DairyProduct;
 import pl.edu.agh.mwo.invoice.product.OtherProduct;
 import pl.edu.agh.mwo.invoice.product.Product;
@@ -128,5 +130,19 @@ public class InvoiceTest {
         int number1 = new Invoice().getNumber();
         int number2 = new Invoice().getNumber();
         Assert.assertThat(number1, Matchers.lessThan(number2));
+    }
+
+    @Test
+    public void shouldIncreaseQuantityIfSameProductWasAdded() {
+        final DairyProduct dairyProduct = new DairyProduct("Maslanka", new BigDecimal("100"));
+
+        invoice.addProduct(dairyProduct);
+        invoice.addProduct(dairyProduct);
+
+//        InvoicePrinter printer = new ConsoleInvoicePrinter();
+//        printer.print(invoice);
+
+        Assert.assertThat(invoice.getProducts().size(), Matchers.equalTo(1));
+        Assert.assertThat(invoice.getProducts().get(dairyProduct), Matchers.equalTo(2));
     }
 }
