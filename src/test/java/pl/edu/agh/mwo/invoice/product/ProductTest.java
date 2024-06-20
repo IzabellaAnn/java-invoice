@@ -24,6 +24,7 @@ public class ProductTest {
 
     @Test
     public void testProductPriceAndTaxWithDairyProduct() {
+
         Product product = new DairyProduct("Szarlotka", new BigDecimal("100.0"));
         Assert.assertThat(new BigDecimal("100"), Matchers.comparesEqualTo(product.getPrice()));
         Assert.assertThat(new BigDecimal("0.08"), Matchers.comparesEqualTo(product.getTaxPercent()));
